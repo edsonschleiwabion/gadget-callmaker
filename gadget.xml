@@ -58,10 +58,12 @@
         <div class="configuration-server">
             <label>Server address:</label>
             <input name="serverip" id="serverip" type="text" placeholder="http://<starface-server>" value="">
+            <span class="serverip-msg">must be defined</span>
         </div>
         <div class="configuration-userid">
             <label>User identity:</label>
-            <input name="userid" id="userid" type="text"  placeholder="SIP/<user id>" value="SIP/SvenSiemens">
+            <input name="userid" id="userid" type="text"  placeholder="SIP/<user id>" value="">
+            <span class="userid-msg">must be defined</span>
         </div>
     </div>
 </div>
@@ -81,8 +83,10 @@
 </div>
 
 <!--
+<link href="https://google.github.io/material-design-icons/sprites/css-sprite/sprite-navigation-white.png" rel="stylesheet" type="text/css">
 <link href="https://google.github.io/material-design-icons/sprites/css-sprite/sprite-navigation-white.css" rel="stylesheet" type="text/css">
 <link href="https://google.github.io/material-design-icons/sprites/css-sprite/sprite-communication-black.css" rel="stylesheet" type="text/css">
+<link href="https://google.github.io/material-design-icons/sprites/css-sprite/sprite-communication-black.png" rel="stylesheet" type="text/css">
 -->
 
 
