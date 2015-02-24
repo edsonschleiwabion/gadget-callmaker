@@ -9594,7 +9594,7 @@ if (this['Meteor']) {
         var libraryName = 'oauth2';
         var libraryVersion = 'v2';
         var scopes = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'];
-        var config = wabion.getConfig(scopes, true);
+        var config = wabion.getConfig(scopes, false);
         return {
             libraryName: libraryName,
             libraryVersion: libraryVersion,
@@ -9886,7 +9886,7 @@ var onLoadGlobal = function () {
     };
 
     oauth2.loadUserInfo = function(cb) {
-        var getUserInfoCB = getUserInfo(cb)
+        var getUserInfoCB = getUserInfo(cb);
         gapiHelper.oauth2(getUserInfoCB);
     };
 
