@@ -9511,8 +9511,8 @@ if (this['Meteor']) {
     };
     
     wabion.errorOutput = function(reason) {
-        console.error('Error: ' + reason.result.error.message);
         console.error(reason);
+//        console.error('Error: ' + reason.result.error.message);
     };
     
 
