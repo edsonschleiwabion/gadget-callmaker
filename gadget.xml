@@ -70,16 +70,18 @@
         No telephone numbers were found!
     </div>
     <div class="found">
+<!--
         <div class="phone-number-container" phone="1234560">
             <div class="icon-communication-black icon-communication-black-ic_call_black_24dp"></div>
             <div class="number">1 2 3 4 5 6</div>
         </div>
+-->
     </div>
 </div>
 
 
-<link href="//google.github.io/material-design-icons/sprites/css-sprite/sprite-navigation-white.css" rel="stylesheet">
-<link href="//google.github.io/material-design-icons/sprites/css-sprite/sprite-communication-black.css" rel="stylesheet">
+<link href="//google.github.io/material-design-icons/sprites/css-sprite/sprite-navigation-white.css" rel="stylesheet" type="text/css">
+<link href="//google.github.io/material-design-icons/sprites/css-sprite/sprite-communication-black.css" rel="stylesheet" type="text/css">
 
 
 <style>
