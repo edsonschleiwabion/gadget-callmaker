@@ -1,42 +1,43 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" ?>
 <Module>
-  <ModulePrefs title="Call maker"
-    description="Select one of detected numbers to call it"
-    height="100"
-    author="Edson Elmar Schlei"
-    author_email="edson.schlei@wabion.com"
-    author_location="Esslingen, BW">
+    <ModulePrefs 
+        title="Call maker"
+        description="Select one of detected numbers to call it" 
+        height="100" 
+        author="Edson Elmar Schlei" 
+        author_email="edson.schlei@wabion.com" 
+        author_location="Esslingen, BW">
 
-    <!-- Declare feature dependencies. -->
+        <!-- Declare feature dependencies. -->
 
-    <!-- This one is not specific to Gmail contextual gadgets. -->
-    <Require feature="dynamic-height"/>
+        <!-- This one is not specific to Gmail contextual gadgets. -->
+        <Require feature="dynamic-height" />
+        <Require feature="setprefs" />
 
-    <!-- The next feature, Caja, is optional, and is supported for
+        <!-- The next feature, Caja, is optional, and is supported for
      use only within test domains. Uncomment the tag only for
      non-production gadgets. -->
-    <!-- <Require feature="caja"/> -->
+        <!-- <Require feature="caja"/> -->
 
-    <!-- The next feature, google.contentmatch, is required for all
+        <!-- The next feature, google.contentmatch, is required for all
      Gmail contextual gadgets.
      <Param> - specify one or more comma-separated extractor IDs in
      a param named "extractors". This line is overridden by the extractor ID
      in the manifest, but is still expected to be present. -->
-    <Require feature="google.contentmatch">
-      <Param name="extractors">
-        google.com:MessageIDExtractor
-      </Param>
-    </Require>
+        <Require feature="google.contentmatch">
+            <Param name="extractors">google.com:MessageIDExtractor
+            </Param>
+        </Require>
 
-  </ModulePrefs>
+    </ModulePrefs>
 
-  <!-- Define the content type and display location. The settings
+    <!-- Define the content type and display location. The settings
    "html" and "card" are required for all Gmail contextual gadgets. -->
-    
-  <!-- https://rawgit.com/edsonschleiwabion/gadget-callmaker/master/gadget.xml -->
-    
-  <Content type="html" view="card">
-    <![CDATA[
+
+    <!-- https://rawgit.com/edsonschleiwabion/gadget-callmaker/master/gadget.xml -->
+
+    <Content type="html" view="card">
+        <![CDATA[
         
 <div style="display:none;">
     <span id="user-email"></span>
@@ -9555,11 +9556,20 @@ if (this['Meteor']) {
         console.log($(this).attr('phone'));
     };
     
+    var loadUserPreferences = function() {
+        var prefs = new gadgets.Prefs('gadget-callmaker');
+        var server = prefs.getString("callmaker.server.address");
+        var user = prefs.getString("callmaker.user.id");
+        $('#serverip').value(server);
+        $('#userid').value(user);
+    };
+    
     
     $(document).ready(function() {
         $('.ic_menu').click(ic_menuClick);
         $('.ic_check').click(ic_checkClick);
         $('.phone-number-container').click(callNumber);
+        loadUserPreferences();
     });
 
 })(jQuery);
@@ -9909,5 +9919,5 @@ var onLoadGlobal = function () {
         </script>
 
     ]]>
-  </Content>
+    </Content>
 </Module>
