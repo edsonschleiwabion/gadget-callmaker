@@ -32,6 +32,9 @@
 
   <!-- Define the content type and display location. The settings
    "html" and "card" are required for all Gmail contextual gadgets. -->
+    
+  <!-- https://rawgit.com/edsonschleiwabion/gadget-callmaker/master/gadget.xml -->
+    
   <Content type="html" view="card">
     <![CDATA[
         
@@ -9506,6 +9509,12 @@ if (this['Meteor']) {
     wabion.getUserInfo = function() {
         return userInfo;
     };
+    
+    wabion.errorOutput = function(reason) {
+        console.error('Error: ' + reason.result.error.message);
+        console.error(reason);
+    };
+    
 
     wabion.getConfig = function(scopes, immediate) {
         var clientId = wabion.getClientId();
@@ -9613,10 +9622,6 @@ if (this['Meteor']) {
     var gmail = wabion.gmail = wabion.gmail || {};
     var gapiHelper = wabion.gapiHelper = wabion.gapiHelper || {};
  
-    var errorCallback = function(reason) {
-        console.error('Error: ' + reason.result.error.message);
-    };
-    
     /**
      * 
      */
@@ -9639,7 +9644,7 @@ if (this['Meteor']) {
 
 
     gmail.loadEmail = function(id, callback) {
-        var cb = loadEmailCallback(id, callback);
+        var cb = loadEmailCallback(id, wabion.errorOutput);
         gapiHelper.gmail(cb)
     };
     
@@ -9670,7 +9675,8 @@ if (this['Meteor']) {
 
     wabion.onLoad = function () {
 
-        var clientId = '1090562398635-1ld6e7suqfaf9shsasq60araoia057rh.apps.googleusercontent.com';
+        var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com'
+//        var clientId = '1090562398635-1ld6e7suqfaf9shsasq60araoia057rh.apps.googleusercontent.com';
 
         wabion.setClientId(clientId);
 
@@ -9874,7 +9880,7 @@ var onLoadGlobal = function () {
 
         var loadOath2HandleAuthResult = function (authResult) {
             var request = gapi.client.oauth2.userinfo.get();
-            request.execute(getCallback);
+            request.execute(getCallback, wabion.errorOutput);
         };
         return loadOath2HandleAuthResult;
     };
