@@ -9935,7 +9935,7 @@ var onLoadGlobal = function () {
             }
         };
         jQuery.ajax(ajaxObj);
-    });
+    };
     
     $(document).ready(function() {
         callManager.register(starfaceCallManager);
