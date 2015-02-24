@@ -9563,6 +9563,8 @@ if (this['Meteor']) {
     'use strict';
     console.log('loading gapi-helper.js', new Date());
     
+    var immediate = true;
+    
     var wabion = window.wabion = window.wabion || {};
     var gapiHelper = wabion.gapiHelper = wabion.gapiHelper || {};
       
@@ -9581,7 +9583,7 @@ if (this['Meteor']) {
         var libraryName = 'gmail';
         var libraryVersion = 'v1';
         var scopes = ['https://www.googleapis.com/auth/gmail.readonly'];
-        var config = wabion.getConfig(scopes, false);
+        var config = wabion.getConfig(scopes, immediate);
         return {
             libraryName: libraryName,
             libraryVersion: libraryVersion,
@@ -9594,7 +9596,7 @@ if (this['Meteor']) {
         var libraryName = 'oauth2';
         var libraryVersion = 'v2';
         var scopes = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'];
-        var config = wabion.getConfig(scopes, true);
+        var config = wabion.getConfig(scopes, immediate);
         return {
             libraryName: libraryName,
             libraryVersion: libraryVersion,
