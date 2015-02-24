@@ -79,9 +79,9 @@
     </div>
 </div>
 
+<link href="https://google.github.io/material-design-icons/sprites/css-sprite/sprite-navigation-white.css" rel="stylesheet" type="text/css">
+<link href="https://google.github.io/material-design-icons/sprites/css-sprite/sprite-communication-black.css" rel="stylesheet" type="text/css">
 
-<link href="//google.github.io/material-design-icons/sprites/css-sprite/sprite-navigation-white.css" rel="stylesheet" type="text/css">
-<link href="//google.github.io/material-design-icons/sprites/css-sprite/sprite-communication-black.css" rel="stylesheet" type="text/css">
 
 
 <style>
