@@ -9560,8 +9560,8 @@ if (this['Meteor']) {
         var prefs = new gadgets.Prefs('gadget-callmaker');
         var server = prefs.getString("callmaker.server.address");
         var user = prefs.getString("callmaker.user.id");
-        $('#serverip').value(server);
-        $('#userid').value(user);
+        $('#serverip').val(server);
+        $('#userid').val(user);
     };
     
     
