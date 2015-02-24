@@ -9530,11 +9530,37 @@ if (this['Meteor']) {
     
 
 })(jQuery);
-;(function ($) {
+;(function($) {
+    'use strict';
+    
+    console.log('loading app-conf.js', new Date());
+
+    var wabion = window.wabion = window.wabion || {};
+    var gmail = wabion.gmail = wabion.gmail || {};
+    var gapiHelper = wabion.gapiHelper = wabion.gapiHelper || {};
+    var callManager = wabion.callManager = wabion.callManager || {};
+    
+    var callManagerImplInter = {};
+    
+    callManager.register = function(callManagerImpl) {
+        callManagerImplInter = callManagerImpl;
+    }
+    
+    callManager.callNumber = function(number) {
+        callManagerImplInter.callNumber(number);
+    }
+    
+
+})(jQuery);
+    ;(function ($) {
     'use strict';
 
     console.log('loading gadget-ui.js', new Date());
  
+    var wabion = window.wabion = window.wabion || {};
+    var callManager = wabion.callManager = wabion.callManager || {};
+    
+    
     var validateValuesAndSave = function() {
         var server = $('#serverip').val();
         var user =$('#userid').val();
@@ -9576,7 +9602,8 @@ if (this['Meteor']) {
     };
     
     var callNumber = function(e) {
-        console.log($(this).attr('phone'));
+        var phoneNumber = $(this).attr('phone')
+        callManager.callNumber(phoneNumber);
     };
     
     var loadUserPreferences = function() {
@@ -9605,6 +9632,7 @@ if (this['Meteor']) {
         $('.ic_check').click(ic_checkClick);
         $('.phone-number-container').click(callNumber);
         $('.phone-numbers').resize(resizePhoneNumber);
+        $(window).resize(resizePhoneNumber);
         loadUserPreferences();
     });
 
@@ -9838,21 +9866,29 @@ var onLoadGlobal = function () {
 
     console.log('loading starface-call ', new Date());
 
-    var timestampt = new Date().getTime();
+    var wabion = window.wabion = window.wabion || {};
+    var callManager = wabion.callManager = wabion.callManager || {};
 
-    var baseURL = 'https://192.168.85.110/ajax/?art='+timestampt+'&guid=0&request-id=1'
+    var starfaceCallManager = {};
 
+    starfaceCallManager.callNumber = function(number) {
+        console.log(number);
+        var server = $('#serverip').val();
+        var userid = $('#userid').val();
 
-    $('#button-dial').click(function(){
-        var dialNumber = $('#dial-number').val()
-        console.log(dialNumber)
-
+        var timestampt = new Date().getTime();
+        var baseURL = server + '/ajax/?art='+timestampt+'&guid=0&request-id=1'
+        var host = server.substr(6);
+        if (server.substr(0,5) === 'https') {
+            host = server.substr(7);
+        }
+        
         var postBaseParam = {
             'handler-name': 'CallmanagerAjaxHandler',
             'callmanager-sleep': false,
-            'originate-source': 'SIP/SvenSiemens',
+            'originate-source': userid,
             'calltask-action':'dial',
-            'calltask-target': dialNumber
+            'calltask-target': number
         };
 
         var callURL = baseURL;
@@ -9867,11 +9903,11 @@ var onLoadGlobal = function () {
             dataType: 'jsonp',
             data: postBaseParam,
             headers: {
-                "Origin":"https://192.168.85.110",
+                "Origin": server,
                 "ajax-request": true,
                 "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.95 Safari/537.36",
                 "Accept-Encoding": " gzip, deflate",
-                "Host" : "192.168.85.110",
+                "Host" : host,
                 "Access-Control-Request-Headers": "*"
             },
             beforeSend: function(jqXHR, settings) {
@@ -9899,23 +9935,12 @@ var onLoadGlobal = function () {
             }
         };
         jQuery.ajax(ajaxObj);
-        /*
-        .done(function(data,textStatus,jqXHR) {
-            console.log(data);
-            console.log(textStatus);
-            console.log(jqXHR);
-            console.log(jqXHR.getAllResponseHeaders());
-            //console.log(jqXHR.responseText);
-
-        }).error(function(jqXHR,textStatus,errorThrown) {
-            console.log("Error");
-            console.log(jqXHR);
-            console.log(jqXHR.getAllResponseHeaders());
-            console.log(textStatus);
-            console.log(errorThrown);
-        });
-        */
     });
+    
+    $(document).ready(function() {
+        callManager.register(starfaceCallManager);
+    });
+    
 })(jQuery);
 ;( function($) {
     'use strict';
