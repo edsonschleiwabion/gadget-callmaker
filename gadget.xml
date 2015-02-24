@@ -9637,7 +9637,7 @@ if (this['Meteor']) {
         
         var result = function(authResult) {
             var request = gapi.client.gmail.users.messages.get(param);
-            request.then(getCallback, errorCallback);
+            request.then(getCallback, wabion.errorCallback);
         };
         return result;
     };
