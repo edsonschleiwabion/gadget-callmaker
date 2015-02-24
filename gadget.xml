@@ -9604,7 +9604,7 @@ if (this['Meteor']) {
         $('.ic_menu').click(ic_menuClick);
         $('.ic_check').click(ic_checkClick);
         $('.phone-number-container').click(callNumber);
-        $('.phone-numbers').resize();
+        $('.phone-numbers').resize(resizePhoneNumber);
         loadUserPreferences();
     });
 
