@@ -9627,7 +9627,7 @@ if (this['Meteor']) {
 //        gadgets.window.adjustHeight(cch + phh);
     };
     
-    $(document).ready(function() {
+    $(document).on("gadget-ready", function() {
         $('.ic_menu').click(ic_menuClick);
         $('.ic_check').click(ic_checkClick);
         $('.phone-number-container').click(callNumber);
@@ -9789,7 +9789,7 @@ if (this['Meteor']) {
         }
         gadgets.window.adjustHeight(300);
         $('#gadget-info').append(matchList);
-
+        $(document).trigger('gadget-ready');
     };
 
     var phoneRegEx = /(?:(((\++\d{1,2}(\r|\s)?|\(\d{1,4}\)(\s|\-)?|\d{4}\-))+(\d{1,8}(\s|\-)*){2,5}))\b/g;
