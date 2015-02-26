@@ -9808,7 +9808,7 @@ if (this['Meteor']) {
 
         var cb = function (id, emailContent) {
 //            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
-            var ctx = Base64.decode(emailContent.raw);
+            var ctx = Base64.decode(emailContent.result.raw);
             var phoneList = ctx.match(phoneRegEx);
 
             var foundDiv = $('div.found');
