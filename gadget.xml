@@ -9805,20 +9805,17 @@ if (this['Meteor']) {
     var removeDuplicated = function(list) {
         var i = 0;
         var newList = [];
-        var existInNewList = function(phoneNumber) {
-            var indx = 0;
-            for(indx = 0; indx < newList.length; indx++) {
-                if (newList[indx] === phoneNumber) {
-                    return true;
-                }
+        var uniquePH = {};
+        var addIfNotExist = function(phoneNumber) {
+            var noSpacePN = phoneNumber.replace(/\s/g, "");
+            if (!uniquePH[noSpacePN]) {
+                uniquePH[noSpacePN] = noSpacePN;
+                newList.push(phoneNumber);
             }
-            return false;
         }
         for (i = 0; i < list.length; i++) {
             var phoneNumber = list[i];
-            if (!existInNueList(phoneNumber)) {
-                newList.push(phoneNumber);
-            }
+            addIfNotExist(phoneNumber);
         }
         return newList;
     };
