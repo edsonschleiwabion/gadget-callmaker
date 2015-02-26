@@ -9750,7 +9750,7 @@ if (this['Meteor']) {
     var loadUserInfo = function () {
 
         var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com'
-//        var clientId = '1090562398635-1ld6e7suqfaf9shsasq60araoia057rh.apps.googleusercontent.com';
+            //        var clientId = '1090562398635-1ld6e7suqfaf9shsasq60araoia057rh.apps.googleusercontent.com';
 
         wabion.setClientId(clientId);
 
@@ -9762,7 +9762,7 @@ if (this['Meteor']) {
     var loadMessageId = function () {
         // Fetch the array of content matches
         var matches = google.contentmatch.getContentMatches();
-        
+
         // Find the message Id (email id)
         for (var match in matches) {
             for (var key in matches[match]) {
@@ -9778,22 +9778,22 @@ if (this['Meteor']) {
      */
     var phoneRegEx = /(?:(((\++\d{1,2}(\r|\s)?|\(\d{1,4}\)(\s|\-)?|\d{4}\-))+(\d{1,8}(\s|\-)*){2,5}))\b/g;
 
-    
-    var createIconCommunicationBlack = function(){
+
+    var createIconCommunicationBlack = function () {
         var div = $('<div>');
         div.addClass('icon-communication-black');
         div.addClass('icon-communication-black-ic_call_black_24dp');
         return div;
     };
-    
-    var createPhoneNumber = function(phoneNumber) {
+
+    var createPhoneNumber = function (phoneNumber) {
         var div = $('<div>');
         div.addClass('number');
         div.text(phoneNumber);
         return div;
     };
-    
-    var createPhoneNumberContainer = function(phoneNumber) {
+
+    var createPhoneNumberContainer = function (phoneNumber) {
         var container = $('<div>');
         container.addClass('phone-number-container')
         container.attr('phone', phoneNumber);
@@ -9801,18 +9801,40 @@ if (this['Meteor']) {
         createPhoneNumber(phoneNumber).appendTo(container);
         return container;
     };
-    
-    
+
+    var removeDuplicated(list) {
+        var i = 0;
+        var newList = [];
+        var existInNewList = function(phoneNumber) {
+            var indx = 0;
+            for(indx = 0; indx < newList.length; indx++) {
+                if (newList[indx] === phoneNumber) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        for (i = 0; i < phoneList.length; i++) {
+            var phoneNumber = phoneList[i];
+            if (!existInNueList(phoneNumber)) {
+                newList.push(phoneNumber);
+            }
+        }
+        return newList;
+    };
+
     var findPhoneNumbers = function () {
         var emailId = $('#email-id').text();
 
         var cb = function (id, emailContent) {
-//            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
+            //            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
             var ctx = Base64.decode(emailContent.result.raw);
             var textIndex = ctx.indexOf('Content-Type: text/plain;');
             var htmlIndex = ctx.indexOf('Content-Type: text/html;');
-            var textCtx = ctx.substr(textIndex, htmlIndex-textIndex);
+            var textCtx = ctx.substr(textIndex, htmlIndex - textIndex);
             var phoneList = textCtx.match(phoneRegEx);
+
+            phoneList = removeDuplicated(phoneList);
 
             var foundDiv = $('div.found');
             foundDiv.empty();
@@ -9828,15 +9850,15 @@ if (this['Meteor']) {
         window.wabion.gmail.loadEmail(emailId, cb);
     };
 
-    $(document).on("gadget-user-info-loaded", function() {
+    $(document).on("gadget-user-info-loaded", function () {
         try {
             findPhoneNumbers();
         } catch (e) {
             console.error(e);
         }
     });
-    
-    $(document).on("gadget-load", function() {
+
+    $(document).on("gadget-load", function () {
         try {
             loadMessageId();
             loadUserInfo();
