@@ -9814,8 +9814,8 @@ if (this['Meteor']) {
             }
             return false;
         }
-        for (i = 0; i < phoneList.length; i++) {
-            var phoneNumber = phoneList[i];
+        for (i = 0; i < list.length; i++) {
+            var phoneNumber = list[i];
             if (!existInNueList(phoneNumber)) {
                 newList.push(phoneNumber);
             }
