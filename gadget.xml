@@ -9802,7 +9802,7 @@ if (this['Meteor']) {
         return container;
     };
 
-    var removeDuplicated(list) {
+    var removeDuplicated = function(list) {
         var i = 0;
         var newList = [];
         var existInNewList = function(phoneNumber) {
