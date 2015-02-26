@@ -9624,7 +9624,7 @@ if (this['Meteor']) {
         var cch = $('.configuration-container').outerHeight(true);
         var phh = $('.phone-numbers').outerHeight(true);
         console.log(cch, phh, cch + phh);
-//        gadgets.window.adjustHeight(cch + phh);
+        gadgets.window.adjustHeight(cch + phh + 2);
     };
     
     $(document).on("gadget-ready", function() {
