@@ -9708,7 +9708,7 @@ if (this['Meteor']) {
             'userId': wabion.getUserInfo().email,
             'id': id,
             'format': 'raw',
-            'fields': ['id', 'raw']
+            'fields': 'id,raw'
         };
 
         var getCallback = function(resp) {
