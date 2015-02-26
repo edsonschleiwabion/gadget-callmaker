@@ -9599,6 +9599,9 @@ if (this['Meteor']) {
         $('.check-title').show();
         $('.menu-title').hide();
         $('.phone-numbers').hide();
+        var cch = $('.configuration-container').outerHeight(true);
+        var phh = $('.configuration-form').outerHeight(true);
+        gadgets.window.adjustHeight(cch + phh + 2);
     };
     
     var callNumber = function(e) {
