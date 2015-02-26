@@ -9602,7 +9602,7 @@ if (this['Meteor']) {
     };
     
     var callNumber = function(e) {
-        var phoneNumber = $(this).attr('phone')
+        var phoneNumber = $(this).attr('phone');
         callManager.callNumber(phoneNumber);
     };
     
@@ -9706,7 +9706,9 @@ if (this['Meteor']) {
     var loadEmailCallback = function(id, callback) {
         var param = {
             'userId': wabion.getUserInfo().email,
-            'id': id
+            'id': id,
+            'format': 'raw',
+            'fields': ['id', 'raw']
         };
 
         var getCallback = function(resp) {
@@ -9805,7 +9807,8 @@ if (this['Meteor']) {
         var emailId = $('#email-id').text();
 
         var cb = function (id, emailContent) {
-            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
+//            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
+            var ctx = Base64.decode(emailContent.raw);
             var phoneList = ctx.match(phoneRegEx);
 
             var foundDiv = $('div.found');
