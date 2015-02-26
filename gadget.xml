@@ -9591,6 +9591,7 @@ if (this['Meteor']) {
             $('.menu-title').show();
             $('.check-title').hide();
             $('.phone-numbers').show();
+            resizePhoneNumber({});
         }
     };
     
@@ -9600,8 +9601,7 @@ if (this['Meteor']) {
         $('.menu-title').hide();
         $('.phone-numbers').hide();
         var cch = $('.configuration-container').outerHeight(true);
-        var phh = $('.configuration-form').outerHeight(true);
-        gadgets.window.adjustHeight(cch + phh + 2);
+        gadgets.window.adjustHeight(cch + 2);
     };
     
     var callNumber = function(e) {
