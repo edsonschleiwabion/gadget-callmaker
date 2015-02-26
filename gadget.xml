@@ -9634,6 +9634,7 @@ if (this['Meteor']) {
         $('.phone-numbers').resize(resizePhoneNumber);
         $(window).resize(resizePhoneNumber);
         loadUserPreferences();
+        resizePhoneNumber({});
     });
 
 })(jQuery);
@@ -9937,7 +9938,7 @@ var onLoadGlobal = function () {
         jQuery.ajax(ajaxObj);
     };
     
-    $(document).ready(function() {
+    $(document).on("gadget-ready", function() {
         callManager.register(starfaceCallManager);
     });
     
