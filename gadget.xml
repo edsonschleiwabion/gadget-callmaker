@@ -9788,9 +9788,8 @@ if (this['Meteor']) {
                 }
             }
         }
-        gadgets.window.adjustHeight(300);
+        gadgets.window.adjustHeight(200);
         $('#gadget-info').append(matchList);
-        $(document).trigger('gadget-ready');
     };
 
     var phoneRegEx = /(?:(((\++\d{1,2}(\r|\s)?|\(\d{1,4}\)(\s|\-)?|\d{4}\-))+(\d{1,8}(\s|\-)*){2,5}))\b/g;
@@ -9841,6 +9840,7 @@ if (this['Meteor']) {
                 var phc = createPhoneNumberContainer(phoneNumber);
                 phc.appendTo(foundDiv);
             }
+            $(document).trigger('gadget-ready');
         };
         window.wabion.gmail.loadEmail(emailId, cb);
     };
