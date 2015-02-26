@@ -9809,7 +9809,10 @@ if (this['Meteor']) {
         var cb = function (id, emailContent) {
 //            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
             var ctx = Base64.decode(emailContent.result.raw);
-            var phoneList = ctx.match(phoneRegEx);
+            var textIndex = ctx.indexOf('Content-Type: text/plain;');
+            var htmlIndex = ctx.indexOf('Content-Type: text/html;');
+            var textCtx = ctx.substr(textIndex, htmlIndex-textIndex);
+            var phoneList = textCtx.match(phoneRegEx);
 
             var foundDiv = $('div.found');
             foundDiv.empty();
