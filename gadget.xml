@@ -9827,7 +9827,7 @@ if (this['Meteor']) {
 
     $(document).on("gadget-user-info-loaded", function() {
         try {
-            window.wabion.findPhoneNumbers();
+            findPhoneNumbers();
         } catch (e) {
             console.error(e);
         }
