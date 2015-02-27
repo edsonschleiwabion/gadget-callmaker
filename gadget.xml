@@ -9483,7 +9483,10 @@ return jQuery;
 if (this['Meteor']) {
     Base64 = global.Base64; // for normal export in Meteor.js
 }
-;(function($) {
+;/* global  window, jQuery*/
+/* jslint vars: true */
+
+(function($) {
     'use strict';
     
     console.log('loading app-conf.js', new Date());
@@ -9530,29 +9533,32 @@ if (this['Meteor']) {
     
 
 })(jQuery);
-;(function($) {
+;/* global  window, jQuery*/
+/* jslint vars: true */
+
+(function($) {
     'use strict';
     
     console.log('loading app-conf.js', new Date());
 
     var wabion = window.wabion = window.wabion || {};
-    var gmail = wabion.gmail = wabion.gmail || {};
-    var gapiHelper = wabion.gapiHelper = wabion.gapiHelper || {};
     var callManager = wabion.callManager = wabion.callManager || {};
     
     var callManagerImplInter = {};
     
     callManager.register = function(callManagerImpl) {
         callManagerImplInter = callManagerImpl;
-    }
+    };
     
     callManager.callNumber = function(number) {
         callManagerImplInter.callNumber(number);
-    }
+    };
     
 
 })(jQuery);
-    ;(function ($) {
+    ;/* global  window, jQuery, gadgets, document */
+
+(function ($) {
     'use strict';
 
     console.log('loading gadget-ui.js', new Date());
@@ -9622,15 +9628,16 @@ if (this['Meteor']) {
     };
 
     var resizePhoneNumber = function (evt) {
+        var cch = 0;
+        var phh = 0;
         if ($('.configuration-form').css('display') !== 'none') {
-            var cch = $('.configuration-container').outerHeight(true);
-            gadgets.window.adjustHeight(cch + 2);
+            cch = $('.configuration-container').outerHeight(true);
         }
         if ($('.phone-numbers').css('display') !== 'none') {
-            var cch = $('.configuration-container').outerHeight(true);
-            var phh = $('.phone-numbers').outerHeight(true);
-            gadgets.window.adjustHeight(cch + phh + 2);
+            cch = $('.configuration-container').outerHeight(true);
+            phh = $('.phone-numbers').outerHeight(true);
         }
+        gadgets.window.adjustHeight(cch + phh + 2);
     };
 
     $(document).on('gadget-ready', function () {
@@ -9642,7 +9649,10 @@ if (this['Meteor']) {
         resizePhoneNumber({});
     });
 
-})(jQuery);;( function($) {
+})(jQuery);;/* global  window, jQuery, gapi */
+/* jslint vars: true */
+
+( function($) {
     'use strict';
     console.log('loading gapi-helper.js', new Date());
     
@@ -9699,7 +9709,10 @@ if (this['Meteor']) {
     }; 
 
 })(jQuery);
-;( function($) {
+;/* global  window, jQuery, gapi */
+/* jslint vars: true */
+
+( function($) {
     'use strict';
     console.log('loading gmail.js', new Date());
 
@@ -9732,13 +9745,17 @@ if (this['Meteor']) {
 
     gmail.loadEmail = function(id, callback) {
         var cb = loadEmailCallback(id, callback);
-        gapiHelper.gmail(cb)
+        gapiHelper.gmail(cb);
     };
     
 
 })(jQuery);
 
-;(function ($) {
+;/* global document, window, google, Base64, gadgets, jQuery, $ */
+/* jslint vars: true */
+/* exported onLoadGlobal */
+
+(function ($) {
     'use strict';
 
     console.log('loading main-app.js', new Date());
@@ -9795,7 +9812,7 @@ if (this['Meteor']) {
 
     var createPhoneNumberContainer = function (phoneNumber) {
         var container = $('<div>');
-        container.addClass('phone-number-container')
+        container.addClass('phone-number-container');
         container.attr('phone', phoneNumber);
         createIconCommunicationBlack().appendTo(container);
         createPhoneNumber(phoneNumber).appendTo(container);
@@ -9812,7 +9829,7 @@ if (this['Meteor']) {
                 uniquePH[noSpacePN] = noSpacePN;
                 newList.push(phoneNumber);
             }
-        }
+        };
         for (i = 0; i < list.length; i++) {
             var phoneNumber = list[i];
             addIfNotExist(phoneNumber);
@@ -9858,7 +9875,7 @@ if (this['Meteor']) {
     $(document).on('gadget-load', function () {
         try {
           gadgets.window.adjustHeight(400);
-          var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com'
+          var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com';
           wabion.setClientId(clientId);
           loadMessageId();
           loadUserInfo();
@@ -9875,7 +9892,11 @@ var onLoadGlobal = function () {
     } catch (e) {
         console.error(e);
     }
-};;( function($) {
+};
+;/* global  window, jQuery, document */
+/* jslint vars: true */
+
+( function($) {
     'use strict';
 
     console.log('loading starface-call ', new Date());
@@ -9891,7 +9912,7 @@ var onLoadGlobal = function () {
         var userid = $('#userid').val();
 
         var timestampt = new Date().getTime();
-        var baseURL = server + '/ajax/?art='+timestampt+'&guid=0&request-id=1'
+        var baseURL = server + '/ajax/?art='+timestampt+'&guid=0&request-id=1';
         var host = server.substr(6);
         if (server.substr(0,5) === 'https') {
             host = server.substr(7);
@@ -9956,7 +9977,10 @@ var onLoadGlobal = function () {
     });
     
 })(jQuery);
-;( function($) {
+;/* global  window, jQuery, gapi */
+/* jslint vars: true */
+
+( function($) {
     'use strict';
     console.log('loading user-oauth2.js', new Date());
     
