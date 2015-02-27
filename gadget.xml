@@ -9825,7 +9825,7 @@ if (this['Meteor']) {
         var uniquePH = {};
         var addIfNotExist = function(phoneNumber) {
             var noSpacePN = phoneNumber.replace(/\s/g, '');
-            if (!uniquePH[noSpacePN]) {
+            if (noSpacePN.length >= 8 && !uniquePH[noSpacePN]) {
                 uniquePH[noSpacePN] = noSpacePN;
                 newList.push(phoneNumber);
             }
