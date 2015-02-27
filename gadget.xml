@@ -9556,14 +9556,14 @@ if (this['Meteor']) {
     'use strict';
 
     console.log('loading gadget-ui.js', new Date());
- 
+
     var wabion = window.wabion = window.wabion || {};
     var callManager = wabion.callManager = wabion.callManager || {};
-    
-    
-    var validateValuesAndSave = function() {
+
+
+    var validateValuesAndSave = function () {
         var server = $('#serverip').val();
-        var user =$('#userid').val();
+        var user = $('#userid').val();
         server = $.trim(server);
         user = $.trim(user);
         if (server === '') {
@@ -9578,14 +9578,14 @@ if (this['Meteor']) {
         }
         if (server !== '' && user !== '') {
             var prefs = new gadgets.Prefs('gadget-callmaker');
-            prefs.set("callmaker.server.address", server);
-            prefs.set("callmaker.user.id", user);
+            prefs.set('callmaker.server.address', server);
+            prefs.set('callmaker.user.id', user);
             return true;
         }
         return false;
     };
-    
-    var ic_checkClick = function(e){
+
+    var ic_checkClick = function (e) {
         if (validateValuesAndSave()) {
             $('.configuration-form').hide();
             $('.menu-title').show();
@@ -9594,25 +9594,24 @@ if (this['Meteor']) {
             resizePhoneNumber({});
         }
     };
-    
-    var ic_menuClick = function(e) {
+
+    var ic_menuClick = function (e) {
         $('.configuration-form').show();
         $('.check-title').show();
         $('.menu-title').hide();
         $('.phone-numbers').hide();
-        var cch = $('.configuration-container').outerHeight(true);
-        gadgets.window.adjustHeight(cch + 2);
+        resizePhoneNumber({});
     };
-    
-    var callNumber = function(e) {
+
+    var callNumber = function (e) {
         var phoneNumber = $(this).attr('phone');
         callManager.callNumber(phoneNumber);
     };
-    
-    var loadUserPreferences = function() {
+
+    var loadUserPreferences = function () {
         var prefs = new gadgets.Prefs('gadget-callmaker');
-        var server = prefs.getString("callmaker.server.address");
-        var user = prefs.getString("callmaker.user.id");
+        var server = prefs.getString('callmaker.server.address');
+        var user = prefs.getString('callmaker.user.id');
         if (server === '' || user === '') {
             validateValuesAndSave();
             ic_menuClick();
@@ -9621,14 +9620,20 @@ if (this['Meteor']) {
             $('#userid').val(user);
         }
     };
-    
-    var resizePhoneNumber = function(evt) {
-        var cch = $('.configuration-container').outerHeight(true);
-        var phh = $('.phone-numbers').outerHeight(true);
-        gadgets.window.adjustHeight(cch + phh + 2);
+
+    var resizePhoneNumber = function (evt) {
+        if ($('.configuration-form').css('display') !== 'none') {
+            var cch = $('.configuration-container').outerHeight(true);
+            gadgets.window.adjustHeight(cch + 2);
+        }
+        if ($('.phone-numbers').css('display') !== 'none') {
+            var cch = $('.configuration-container').outerHeight(true);
+            var phh = $('.phone-numbers').outerHeight(true);
+            gadgets.window.adjustHeight(cch + phh + 2);
+        }
     };
-    
-    $(document).on("gadget-ready", function() {
+
+    $(document).on('gadget-ready', function () {
         $('.ic_menu').click(ic_menuClick);
         $('.ic_check').click(ic_checkClick);
         $('.phone-number-container').click(callNumber);
@@ -9637,8 +9642,7 @@ if (this['Meteor']) {
         resizePhoneNumber({});
     });
 
-})(jQuery);
-    ;( function($) {
+})(jQuery);;( function($) {
     'use strict';
     console.log('loading gapi-helper.js', new Date());
     
@@ -9751,14 +9755,7 @@ if (this['Meteor']) {
     };
 
     var loadUserInfo = function () {
-
-        var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com'
-            //        var clientId = '1090562398635-1ld6e7suqfaf9shsasq60araoia057rh.apps.googleusercontent.com';
-
-        wabion.setClientId(clientId);
-
         oauth2.loadUserInfo(userInfoCB);
-
     };
 
 
@@ -9860,8 +9857,10 @@ if (this['Meteor']) {
 
     $(document).on("gadget-load", function () {
         try {
-            loadMessageId();
-            loadUserInfo();
+          var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com'
+          wabion.setClientId(clientId);
+          loadMessageId();
+          loadUserInfo();
         } catch (e) {
             console.error(e);
         }
@@ -9910,19 +9909,19 @@ var onLoadGlobal = function () {
         var ajaxObj = {
             type: 'POST',
             url: callURL,
-            contentType: "application/x-www-form-urlencoded",
+            contentType: 'application/x-www-form-urlencoded',
             crossDomain: true,
             cache: false,
             accepts: '*/*',
             dataType: 'jsonp',
             data: postBaseParam,
             headers: {
-                "Origin": server,
-                "ajax-request": true,
-                "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.95 Safari/537.36",
-                "Accept-Encoding": " gzip, deflate",
-                "Host" : host,
-                "Access-Control-Request-Headers": "*"
+                'Origin': server,
+                'ajax-request': true,
+                'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/40.0.2214.95 Safari/537.36',
+                'Accept-Encoding': ' gzip, deflate',
+                'Host' : host,
+                'Access-Control-Request-Headers': '*'
             },
             beforeSend: function(jqXHR, settings) {
                 console.log('beforeSend');
@@ -9951,7 +9950,7 @@ var onLoadGlobal = function () {
         jQuery.ajax(ajaxObj);
     };
     
-    $(document).on("gadget-ready", function() {
+    $(document).on('gadget-ready', function() {
         callManager.register(starfaceCallManager);
     });
     
