@@ -9807,7 +9807,7 @@ if (this['Meteor']) {
         var newList = [];
         var uniquePH = {};
         var addIfNotExist = function(phoneNumber) {
-            var noSpacePN = phoneNumber.replace(/\s/g, "");
+            var noSpacePN = phoneNumber.replace(/\s/g, '');
             if (!uniquePH[noSpacePN]) {
                 uniquePH[noSpacePN] = noSpacePN;
                 newList.push(phoneNumber);
@@ -9847,7 +9847,7 @@ if (this['Meteor']) {
         window.wabion.gmail.loadEmail(emailId, cb);
     };
 
-    $(document).on("gadget-user-info-loaded", function () {
+    $(document).on('gadget-user-info-loaded', function () {
         try {
             findPhoneNumbers();
         } catch (e) {
@@ -9855,8 +9855,9 @@ if (this['Meteor']) {
         }
     });
 
-    $(document).on("gadget-load", function () {
+    $(document).on('gadget-load', function () {
         try {
+          gadgets.window.adjustHeight(400);
           var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com'
           wabion.setClientId(clientId);
           loadMessageId();
