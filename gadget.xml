@@ -9488,7 +9488,7 @@ if (this['Meteor']) {
 
 (function($) {
     'use strict';
-    
+
     console.log('loading app-conf.js', new Date());
 
     var wabion = window.wabion = window.wabion || {};
@@ -9498,7 +9498,7 @@ if (this['Meteor']) {
     };
 
     var userInfo = {};
-    
+
     wabion.setClientId = function(clientId) {
         googleApiCfg.clientId = clientId;
     };
@@ -9506,20 +9506,20 @@ if (this['Meteor']) {
     wabion.getClientId = function() {
         return googleApiCfg.clientId;
     };
-    
+
     wabion.setUserInfo = function(info) {
         userInfo = info;
     };
-    
+
     wabion.getUserInfo = function() {
         return userInfo;
     };
-    
+
     wabion.errorOutput = function(reason) {
         console.error(reason);
 //        console.error('Error: ' + reason.result.error.message);
     };
-    
+
 
     wabion.getConfig = function(scopes, immediate) {
         var clientId = wabion.getClientId();
@@ -9530,7 +9530,7 @@ if (this['Meteor']) {
         };
         return config;
     };
-    
+
 
 })(jQuery);
 ;/* global  window, jQuery*/
@@ -9557,6 +9557,7 @@ if (this['Meteor']) {
 
 })(jQuery);
     ;/* global  window, jQuery, gadgets, document */
+/* jslint vars: true */
 
 (function ($) {
     'use strict';
@@ -9652,27 +9653,27 @@ if (this['Meteor']) {
 })(jQuery);;/* global  window, jQuery, gapi */
 /* jslint vars: true */
 
-( function($) {
+(function ($) {
     'use strict';
     console.log('loading gapi-helper.js', new Date());
-    
+
     var immediate = true;
-    
+
     var wabion = window.wabion = window.wabion || {};
     var gapiHelper = wabion.gapiHelper = wabion.gapiHelper || {};
-      
-    var loadAPI = function(libCfg) {
-        var loadAPIHandleAuthResult = function(authResult) {
-            var loadCallback = function() {
+
+    var loadAPI = function (libCfg) {
+        var loadAPIHandleAuthResult = function (authResult) {
+            var loadCallback = function () {
                 libCfg.authResultCallback(authResult);
             };
-            gapi.client.load(libCfg.libraryName, libCfg.libraryVersion,  loadCallback);
+            gapi.client.load(libCfg.libraryName, libCfg.libraryVersion, loadCallback);
         };
-        
+
         gapi.auth.authorize(libCfg.config, loadAPIHandleAuthResult);
     };
-    
-    var gmailCfg = function(cb) {
+
+    var gmailCfg = function (cb) {
         var libraryName = 'gmail';
         var libraryVersion = 'v1';
         var scopes = ['https://www.googleapis.com/auth/gmail.readonly'];
@@ -9684,11 +9685,11 @@ if (this['Meteor']) {
             authResultCallback: cb
         };
     };
-  
-    var oauth2Cfg = function(cb) {
+
+    var oauth2Cfg = function (cb) {
         var libraryName = 'oauth2';
         var libraryVersion = 'v2';
-        var scopes = ['https://www.googleapis.com/auth/userinfo.profile','https://www.googleapis.com/auth/userinfo.email'];
+        var scopes = ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email'];
         var config = wabion.getConfig(scopes, immediate);
         return {
             libraryName: libraryName,
@@ -9697,16 +9698,16 @@ if (this['Meteor']) {
             authResultCallback: cb
         };
     };
-    
-    gapiHelper.gmail = function(cb) {
+
+    gapiHelper.gmail = function (cb) {
         var cfg = gmailCfg(cb);
         loadAPI(cfg);
-    }; 
+    };
 
-    gapiHelper.oauth2 = function(cb) {
+    gapiHelper.oauth2 = function (cb) {
         var cfg = oauth2Cfg(cb);
         loadAPI(cfg);
-    }; 
+    };
 
 })(jQuery);
 ;/* global  window, jQuery, gapi */
@@ -9819,13 +9820,13 @@ if (this['Meteor']) {
         return container;
     };
 
-    var removeDuplicated = function(list) {
+    var removeDuplicated = function (list) {
         var i = 0;
         var newList = [];
         var uniquePH = {};
-        var addIfNotExist = function(phoneNumber) {
+        var addIfNotExist = function (phoneNumber) {
             var noSpacePN = phoneNumber.replace(/\s/g, '');
-            var onlyNumber = noSpacePN.replace(/(?:\D*\.)?\D+/g,'');
+            var onlyNumber = noSpacePN.replace(/(?:\D*\.)?\D+/g, '');
             if (onlyNumber.length >= 8 && !uniquePH[noSpacePN]) {
                 uniquePH[noSpacePN] = noSpacePN;
                 newList.push(phoneNumber);
@@ -9838,31 +9839,37 @@ if (this['Meteor']) {
         return newList;
     };
 
+    var loadEmailCB = function (id, emailContent) {
+        //            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
+        var ctx = Base64.decode(emailContent.result.raw);
+        var textIndex = ctx.indexOf('Content-Type: text/plain;');
+        var htmlIndex = ctx.indexOf('Content-Type: text/html;');
+        var textCtx = ctx.substr(textIndex, htmlIndex - textIndex);
+        var phoneList = textCtx.match(phoneRegEx);
+
+        phoneList = removeDuplicated(phoneList);
+
+        var foundDiv = $('div.found');
+        foundDiv.empty();
+
+        var i = 0;
+        for (i = 0; i < phoneList.length; i++) {
+            var phoneNumber = phoneList[i];
+            var phc = createPhoneNumberContainer(phoneNumber);
+            phc.appendTo(foundDiv);
+        }
+
+        if (phoneList.length === 0) {
+            $('div.not-found').show();
+            foundDiv.hide();
+        }
+
+        $(document).trigger('gadget-ready');
+    };
+
     var findPhoneNumbers = function () {
         var emailId = $('#email-id').text();
-
-        var cb = function (id, emailContent) {
-            //            var ctx = Base64.decode(emailContent.result.payload.parts[0].body.data);
-            var ctx = Base64.decode(emailContent.result.raw);
-            var textIndex = ctx.indexOf('Content-Type: text/plain;');
-            var htmlIndex = ctx.indexOf('Content-Type: text/html;');
-            var textCtx = ctx.substr(textIndex, htmlIndex - textIndex);
-            var phoneList = textCtx.match(phoneRegEx);
-
-            phoneList = removeDuplicated(phoneList);
-
-            var foundDiv = $('div.found');
-            foundDiv.empty();
-
-            var i = 0;
-            for (i = 0; i < phoneList.length; i++) {
-                var phoneNumber = phoneList[i];
-                var phc = createPhoneNumberContainer(phoneNumber);
-                phc.appendTo(foundDiv);
-            }
-            $(document).trigger('gadget-ready');
-        };
-        window.wabion.gmail.loadEmail(emailId, cb);
+        window.wabion.gmail.loadEmail(emailId, loadEmailCB);
     };
 
     $(document).on('gadget-user-info-loaded', function () {
@@ -9875,11 +9882,11 @@ if (this['Meteor']) {
 
     $(document).on('gadget-load', function () {
         try {
-          gadgets.window.adjustHeight(400);
-          var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com';
-          wabion.setClientId(clientId);
-          loadMessageId();
-          loadUserInfo();
+            gadgets.window.adjustHeight(400);
+            var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com';
+            wabion.setClientId(clientId);
+            loadMessageId();
+            loadUserInfo();
         } catch (e) {
             console.error(e);
         }
@@ -9981,16 +9988,19 @@ var onLoadGlobal = function () {
 ;/* global  window, jQuery, gapi */
 /* jslint vars: true */
 
-( function($) {
+(function ($) {
     'use strict';
     console.log('loading user-oauth2.js', new Date());
-    
+
     var wabion = window.wabion = window.wabion || {};
     var oauth2 = wabion.oauth2 = wabion.oauth2 || {};
     var gapiHelper = wabion.gapiHelper = wabion.gapiHelper || {};
 
-    var getUserInfo = function(cb) {
-        var getCallback = function(resp) {
+    /*
+     * @param {function} cb callback that is called when user information is returned.
+     */
+    var getUserInfo = function (cb) {
+        var getCallback = function (resp) {
             cb(resp);
         };
 
@@ -10001,7 +10011,7 @@ var onLoadGlobal = function () {
         return loadOath2HandleAuthResult;
     };
 
-    oauth2.loadUserInfo = function(cb) {
+    oauth2.loadUserInfo = function (cb) {
         var getUserInfoCB = getUserInfo(cb);
         gapiHelper.oauth2(getUserInfoCB);
     };
