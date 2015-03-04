@@ -9882,7 +9882,7 @@ if (this['Meteor']) {
 
     $(document).on('gadget-load', function () {
         try {
-            gadgets.window.adjustHeight(400);
+            gadgets.window.adjustHeight(100);
             var clientId = '590508735382-lr3q3kqhbhoo53lrlgi3rk5efiu06r81.apps.googleusercontent.com';
             wabion.setClientId(clientId);
             loadMessageId();
